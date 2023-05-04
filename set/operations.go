@@ -36,7 +36,7 @@ func Difference[T any](first Set[T], second Set[T]) Set[T] {
 
 func EmptySet[T any]() Set[T] {
 	return Set[T]{
-		members: make(map[int]*T),
+		members: make(map[string]*T),
 	}
 }
 

@@ -1,19 +1,20 @@
 package set
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
-	"hash/fnv"
 )
 
 type (
 	Set[T any] struct {
-		members map[int]*T
+		members map[string]*T
 	}
 )
 
 func (set *Set[T]) Add(members ...T) {
 	if set.members == nil {
-		set.members = make(map[int]*T)
+		set.members = make(map[string]*T)
 	}
 	for _, member := range members {
 		id := hash(fmt.Sprintf("%v", member))
@@ -27,7 +28,7 @@ func (set *Set[T]) Remove(members ...T) {
 	}
 }
 
-func (set Set[T]) Contains(Id int) bool {
+func (set Set[T]) Contains(Id string) bool {
 	return set.members[Id] != nil
 }
 
@@ -43,7 +44,8 @@ func (set Set[T]) Count() int {
 	return len(set.members)
 }
 
-func hash(input string) int {
-	id, _ := fnv.New128().Write([]byte(input))
+func hash(input string) string {
+	hashBytes := sha256.Sum256([]byte(input))
+	id := hex.EncodeToString(hashBytes[:])
 	return id
 }
