@@ -44,6 +44,14 @@ func (set Set[T]) Count() int {
 	return len(set.members)
 }
 
+func (set Set[T]) Map(action func(member T) T) Set[T] {
+	s := Set[T]{}
+	for _, member := range set.members {
+		s.Add(action(*member))
+	}
+	return s
+}
+
 func hash(input string) string {
 	hashBytes := sha256.Sum256([]byte(input))
 	id := hex.EncodeToString(hashBytes[:])
