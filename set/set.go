@@ -47,6 +47,5 @@ func (set Set[T]) Count() int {
 func hash(input string) string {
 	hashBytes := sha256.Sum256([]byte(input))
 	id := hex.EncodeToString(hashBytes[:])
-	fmt.Println(id)
 	return id
 }
