@@ -3,6 +3,7 @@ package set
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 )
 
@@ -24,12 +25,12 @@ func (set *Set[T]) Add(members ...T) {
 
 func (set *Set[T]) Remove(members ...T) {
 	for _, member := range members {
-		delete(set.members, hash(fmt.Sprintf("%v", member)))
+		delete(set.members, hash(member))
 	}
 }
 
 func (set Set[T]) Contains(member T) bool {
-	return set.members[hash(fmt.Sprintf("%v", member))] != nil
+	return set.members[hash(member)] != nil
 }
 
 func (set Set[T]) ToSlice() []T {
@@ -52,8 +53,8 @@ func (set Set[T]) Map(action func(member T) T) Set[T] {
 	return s
 }
 
-func hash(input string) string {
-	hashBytes := sha256.Sum256([]byte(input))
-	id := hex.EncodeToString(hashBytes[:])
-	return id
+func hash[T any](member T) string {
+	series, _ := json.Marshal(member)
+	hashBytes := sha256.Sum256(series)
+	return hex.EncodeToString(hashBytes[:])
 }
