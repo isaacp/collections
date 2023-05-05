@@ -30,18 +30,22 @@ func Intersection[T any](sets ...Set[T]) Set[T] {
 	if len(sets) == 0 {
 		return EmptySet[T]()
 	}
+	if len(sets) == 1 {
+		return sets[0]
+	}
 
-	intersection := sets[0]
-	remainingSets := sets[1:]
-	for i := 0; i < len(remainingSets); i++ {
-		for _, member := range remainingSets[i].members {
-			if !intersection.Contains(*member) {
-				intersection.Remove(*member)
-			}
+	head := sets[0]
+	neck := sets[1]
+	tail := sets[1:]
+
+	for i := 0; i < len(head.members); i++ {
+		common := head.ToSlice()
+		if !neck.Contains(common[i]) {
+			head.Remove(common[i])
 		}
 	}
 
-	return intersection
+	return Intersection(append(tail, head)...)
 }
 
 func NewSet[T any](members ...T) *Set[T] {
