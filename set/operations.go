@@ -36,7 +36,7 @@ func Intersection[T any](sets ...Set[T]) Set[T] {
 
 	head := sets[0]
 	neck := sets[1]
-	tail := sets[1:]
+	tail := sets[2:]
 
 	for i := 0; i < len(head.members); i++ {
 		common := head.ToSlice()
