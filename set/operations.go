@@ -34,18 +34,17 @@ func Intersection[T any](sets ...Set[T]) Set[T] {
 		return sets[0]
 	}
 
-	head := sets[0]
-	neck := sets[1]
-	tail := sets[2:]
-
-	for i := 0; i < len(head.members); i++ {
-		common := head.ToSlice()
-		if !neck.Contains(common[i]) {
-			head.Remove(common[i])
+	last := sets[len(sets)-1]
+	nextToLast := sets[len(sets)-2]
+	front := sets[:len(sets)-2]
+	lastMembers := last.ToSlice()
+	for i := 0; i < len(last.members); i++ {
+		if !nextToLast.Contains(lastMembers[i]) {
+			last.Remove(lastMembers[i])
 		}
 	}
 
-	return Intersection(append(tail, head)...)
+	return Intersection(append(front, last)...)
 }
 
 func NewSet[T any](members ...T) *Set[T] {
