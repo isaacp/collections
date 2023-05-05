@@ -28,8 +28,8 @@ func (set *Set[T]) Remove(members ...T) {
 	}
 }
 
-func (set Set[T]) Contains(Id string) bool {
-	return set.members[Id] != nil
+func (set Set[T]) Contains(member T) bool {
+	return set.members[hash(fmt.Sprintf("%v", member))] != nil
 }
 
 func (set Set[T]) ToSlice() []T {
