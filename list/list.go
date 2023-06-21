@@ -53,3 +53,11 @@ func (c list[T]) Index(item T) (int, error) {
 
 	return -1, errors.New("item not found")
 }
+
+func (c list[T]) Map(action func(member T) T) list[T] {
+	l := list[T]{}
+	for _, m := range l.members {
+		l.Add(action(m))
+	}
+	return l
+}
