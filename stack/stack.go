@@ -44,7 +44,7 @@ func (s *stack[T]) Push(t T) {
 
 func (s *stack[T]) ToSlice() []T {
 	result := make([]T, 0)
-	for i := len(s.store) - 1; i > 0; i-- {
+	for i := len(s.store) - 1; i > -1; i-- {
 		result = append(result, s.store[i])
 	}
 	return result

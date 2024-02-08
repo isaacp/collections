@@ -54,6 +54,7 @@ func (c list[T]) Index(item T) (int, error) {
 	return -1, errors.New("item not found")
 }
 
+// Map function only changes public values. Cannot change type
 func (c list[T]) Map(action func(member T) T) list[T] {
 	l := list[T]{}
 	for _, m := range l.members {
