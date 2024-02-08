@@ -41,3 +41,11 @@ func (s *stack[T]) Pop() (*T, error) {
 func (s *stack[T]) Push(t T) {
 	s.store = append([]T{t}, s.store...)
 }
+
+func (s *stack[T]) ToSlice() []T {
+	result := make([]T, 0)
+	for i := len(s.store) - 1; i > 0; i-- {
+		result = append(result, s.store[i])
+	}
+	return result
+}
